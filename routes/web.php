@@ -1,7 +1,13 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductOrderController;
+use App\Http\Controllers\ProductController;
+
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +21,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $products = Product::all();
+    return view('welcome', compact('products'));
 });
 
 Route::resource('products', 'ProductController');
 
-Route::get('/cart', 'CartController@index')->name('cart.index');
-Route::post('/cart/add/{productId}', 'CartController@add')->name('cart.add');
-Route::post('/cart/update/{productId}', 'CartController@update')->name('cart.update');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
 Route::resource('orders', 'ProductOrderController')->only(['show', 'store']);
 
 
