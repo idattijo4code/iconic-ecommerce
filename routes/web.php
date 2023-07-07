@@ -23,7 +23,6 @@ Route::resource('products', 'ProductController');
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::post('/cart/add/{productId}', 'CartController@add')->name('cart.add');
 Route::post('/cart/update/{productId}', 'CartController@update')->name('cart.update');
-
 Route::resource('orders', 'ProductOrderController')->only(['show', 'store']);
 
 
